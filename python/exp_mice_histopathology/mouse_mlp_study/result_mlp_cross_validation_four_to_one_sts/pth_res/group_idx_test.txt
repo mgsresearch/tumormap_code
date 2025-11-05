@@ -1,0 +1,5 @@
+['sts_1266_tumor']
+['sts_1294_tumor']
+['sts_1293_tumor']
+['sts_1289_tumor']
+['sts_1288_tumor']

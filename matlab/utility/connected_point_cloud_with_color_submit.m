@@ -1,0 +1,103 @@
+
+function [ cell_pc, cell_pc_color ] = connected_point_cloud_with_color_submit( pt_use, pt_color, num_of_knn, scale_dis, flag_figure )
+
+    % initialization
+    x_0         = pt_use;
+    y_0         = pt_use(1,:);
+    color_x_0   = pt_color;
+    color_y_0   = pt_color(1,:);
+    [n_0, ~]    = knnsearch(x_0, y_0, 'k', num_of_knn, 'distance', 'euclidean');
+    
+    x           = pt_use;           % The main data set
+    y           = pt_use(n_0,:);    % The closest n_0 points
+    color_x     = pt_color;
+    color_y     = pt_color(n_0,:);
+    result      = [n_0(:)];         % The current result of the cloest points index 
+    Cell_local  = {};               % The Cell -- final results 
+    Cell_local_color = {};
+    flag_group  = 0;    
+    count       = 0;
+    
+    data_viz    = [y];
+    data_viz_color = [color_y];
+
+    for i = 1: 1000
+    
+        %count = count + 1
+        % i
+    
+        [n, d]          = knnsearch(x, y, 'k', num_of_knn, 'distance', 'euclidean');
+        thres_remove    = scale_dis; 
+        idx_out         = find(d(:) > thres_remove);    % index that needs to be removed out 
+        
+        % index to tbe kept for each iteration
+        n_iter          = n(:);
+        n_iter(idx_out) = [];
+        n               = n_iter;
+        n_idx           = unique(n(:));
+    
+        % storage the results
+        result          = [result; n_idx];
+        y               = pt_use(n_idx, :, :);
+        color_y         = pt_color(n_idx, :, :);
+        data_viz        = [data_viz ; y ];
+        data_viz_color  = [data_viz_color ; color_y];
+    
+        % Determine the next x and y
+        idx_remove = n_idx;
+        pt_use(idx_remove,:)    = [];
+        pt_color(idx_remove,:)  = [];
+    
+        x = pt_use;
+    
+        % % viz the result
+        % figure(flag_figure);
+        % hold on; 
+        % xlabel('x');ylabel('y');zlabel('z');
+        % size(y)
+        % pcshow(y,'r');
+    
+        % stop
+        if length(y) == 0 & length(x) == 0
+            flag_group = flag_group + 1;
+            Cell_local{flag_group} = data_viz;
+            Cell_local_color{flag_group} = data_viz_color;
+            break;
+        end
+    
+        if length(y) == 0 & length(x) ~= 0
+            flag_group = flag_group + 1;
+            Cell_local{flag_group} = data_viz;
+            Cell_local_color{flag_group} = data_viz_color;
+            data_viz = [];
+            data_viz_color = [];
+            y = pt_use(1,:);
+            color_y = pt_color(1,:);
+            data_viz = [data_viz;y];
+            data_viz_color = [data_viz_color;color_y];
+        end
+    
+    end
+    
+    % sort the clusters 
+    size_of_cluster = [];
+    for i = 1: length(Cell_local) 
+        res_viz = Cell_local{i};  
+        size_of_cluster = [size_of_cluster;length(res_viz)];
+    end
+    [size_of_cluster_sort, idx_sort] = sort(size_of_cluster, "descend"); 
+    
+    % remove the other point cloud
+    [L_max, idx_max] = max(size_of_cluster);   
+    if length(Cell_local) == 0
+        data_use = x_0;
+    else
+        data_use = Cell_local{idx_max};
+    end
+    data = data_use;
+    
+    cell_pc = Cell_local;
+    cell_pc_color = Cell_local_color; 
+
+end
+

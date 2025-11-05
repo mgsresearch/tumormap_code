@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<world>
+  <robot name="ur5e" file="robots/ur5e.rob" rotateZ="1.5708" translation="0.0 0 0.825"  />
+ <terrain file="terrains/cube.off" scale="0.3 0.3 0.02" translation="0.0 0.75 0.825">
+     <display color="0.5 0.8 1"/>
+ </terrain>
+
+<!--    [-0.40623282340840483, 0.7550673581221751, 0.8188514212436641]-->
+<!--[-0.233175001925299, 0.8172491438642472, 0.8873350014668819]-->
+<!--    -0.06011718044219316, 0.8794309296063193, 0.9558185816900998-->
+     <terrain file="terrains/cube.off" scale="0.05 0.05 0.02" translation="-0.40623282340840483 0.7550673581221751 0.8188514212436641">
+     <display color="0.5 0.8 1"/>
+ </terrain>
+<!--0.0 0 0.825-->
+    <terrain file="terrains/block.off" />
+
+ <terrain file="terrains/cube.off" scale="10.0 10.0 0.01" translation="-5.0 -5.0 -0.01">
+     <display color="0.8 0.8 0.8"/>
+ </terrain>
+</world>
