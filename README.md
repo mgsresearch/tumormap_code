@@ -9,6 +9,10 @@ Mark Draelos, MD, PhD, 2,5 William C. Eward, DVM, MD 3 and Patrick J. Codd, MD1,
 
 <br>
 
+<br>
+
+The ArXiv preprint paper is available at: https://arxiv.org/abs/2511.05723
+
 <!-- <div style="text-align:center;"> -->
 <center>
 <br>
